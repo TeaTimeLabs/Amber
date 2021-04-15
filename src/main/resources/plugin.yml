@@ -1,0 +1,9 @@
+name: Eula
+version: ${project.version}
+api-version: 1.16
+author: Nykorrin
+description: Simple monster economy plugin. Oh and before you ask, the name does not refer to "Enduuser license agreement".
+main: me.nykorrin.eula.Eula
+depend:
+  - Vault
+  - Essentials
