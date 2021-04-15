@@ -17,6 +17,7 @@ public class Eula extends JavaPlugin {
     @Override
     public void onEnable() {
         long timeStart = System.currentTimeMillis();
+        instance = this;
 
         getConfig().options().copyDefaults(true);
         saveConfig();

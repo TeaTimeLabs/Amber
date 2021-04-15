@@ -9,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,8 +42,6 @@ public class EntityListener implements Listener {
                 }
             }
         }
-
-
     }
 
     @EventHandler
@@ -53,11 +50,6 @@ public class EntityListener implements Listener {
         Player player = entity.getKiller();
         String name = entity.getName();
         double amount = 0;
-
-        // Player is null
-        if (player == null) {
-            return;
-        }
 
         // Cycle entity types
         for (EntityType type : EntityType.values()) {
@@ -77,6 +69,11 @@ public class EntityListener implements Listener {
             }
         }
 
+        // Player is null
+        if (player == null) {
+            return;
+        }
+
         // Amount is 0
         if (amount == 0) {
             return;
@@ -91,57 +88,6 @@ public class EntityListener implements Listener {
             Eula.getEconomy().withdrawPlayer(player, Math.abs(amount)).transactionSuccess();
             player.sendMessage(ChatColor.RED + "You lost $" + Math.abs(amount) + " for killing a " + name + ".");
         }
-
-        /*
-        // Killer is a player
-        if (entity.getKiller() instanceof Player) {
-            Player player = entity.getKiller();
-
-            // Entity is a living entity
-            if (event.getEntity() instanceof LivingEntity) {
-                String name = entity.getName();
-                double amount = 0;
-
-                // Player is null
-                if (player == null) {
-                    return;
-                }
-
-                // Cycle entity types
-                for (EntityType type : EntityType.values()) {
-                    // Entity type is type
-                    if (entity.getType() == type) {
-                        // Config contains entity
-                        if (this.plugin.getConfig().contains("monsters." + type.name().toLowerCase())) {
-                            // Entity is cheated entity
-                            if (cheatedEntities.contains(entity.getUniqueId()))  {
-                                this.plugin.getLogger().info("Cheated entity killed. UUID of " + entity.getName() + " is " + entity.getUniqueId());
-                                cheatedEntities.remove(entity.getUniqueId());
-                                return;
-                            }
-
-                            amount = this.plugin.getConfig().getDouble("monsters." + type.name().toLowerCase());
-                        }
-                    }
-                }
-
-                // Amount is 0
-                if (amount == 0) {
-                    return;
-                }
-
-                // Ammount is greater 0
-                if (amount > 0) {
-                    Eula.getEconomy().depositPlayer(player, amount).transactionSuccess();
-                    player.sendMessage(ChatColor.GREEN + "You earned $" + amount + " for killing a " + name + ".");
-                    // Amount is less than 0
-                } else {
-                    Eula.getEconomy().withdrawPlayer(player, Math.abs(amount)).transactionSuccess();
-                    player.sendMessage(ChatColor.RED + "You lost $" + Math.abs(amount) + " for killing a " + name + ".");
-                }
-            }
-        }
-        */
 
     }
 }
