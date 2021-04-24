@@ -9,3 +9,6 @@ Simple monster economy plugin. Oh and before you ask, the name does not refer to
 ## Dependencies
 ### Plugins
 * Vault
+
+### Maven
+* [Sucrose](https://github.com/Nykorrin/Sucrose) by Nykorrin
