@@ -1,6 +1,8 @@
 package me.nykorrin.eula.listeners;
 
 import me.nykorrin.eula.Eula;
+import me.nykorrin.sucrose.SucroseAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -28,6 +30,13 @@ public class EntityListener implements Listener {
     public void onEntitySpawn(CreatureSpawnEvent event) {
         LivingEntity entity = event.getEntity();
 
+        if (entity.getCustomName() != null) {
+            if (SucroseAPI.getManagerHandler().getEventManager().getBloodmoon().getEntites().contains(entity.getCustomName())) {
+                this.plugin.getLogger().info("Bloodmoon entity detected. UUID of " + entity.getType().name() + " is " + entity.getUniqueId());
+                return;
+            }
+        }
+
         // Spawn reason is either via spawn egg or custom
         if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG || event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM) {
             // Cycle entity types
@@ -51,6 +60,36 @@ public class EntityListener implements Listener {
         String name = entity.getName();
         double amount = 0;
 
+        // Player is null
+        if (player == null) {
+            return;
+        }
+
+        // Entity has a name
+        if (entity.getCustomName() != null) {
+            // Bloodmoon entities contains entity
+            if (SucroseAPI.getManagerHandler().getEventManager().getBloodmoon().getEntites().contains(entity.getCustomName())) {
+                this.plugin.getLogger().info("Bloodmoon entity killed. UUID of " + entity.getType().name() + " was " + entity.getUniqueId());
+
+                if (entity.getCustomName().contains("Bloodmoon-infused Giant Zombie")) {
+                    amount = this.plugin.getConfig().getDouble("events.bloodmoon.bloodmoon_giant");
+                }
+
+                if (entity.getCustomName().contains("Bloodmoon-infused Zombie")) {
+                    amount = this.plugin.getConfig().getDouble("events.bloodmoon.bloodmoon_zombie");
+                }
+
+                if (entity.getCustomName().contains("Bloodmoon-infused Skeleton")) {
+                    amount = this.plugin.getConfig().getDouble("events.bloodmoon.bloodmoon_skeleton");
+                }
+
+                Eula.getEconomy().depositPlayer(player, amount).transactionSuccess();
+                Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing a " + entity.getName() + ChatColor.LIGHT_PURPLE + ".");
+                return;
+            }
+            // TODO: Add the rest of the events here
+        }
+
         // Cycle entity types
         for (EntityType type : EntityType.values()) {
             // Entity type is type
@@ -67,11 +106,6 @@ public class EntityListener implements Listener {
                     amount = this.plugin.getConfig().getDouble("monsters." + type.name().toLowerCase());
                 }
             }
-        }
-
-        // Player is null
-        if (player == null) {
-            return;
         }
 
         // Amount is 0

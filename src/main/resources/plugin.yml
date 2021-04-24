@@ -7,3 +7,4 @@ main: me.nykorrin.eula.Eula
 depend:
   - Vault
   - Essentials
+  - Sucrose
