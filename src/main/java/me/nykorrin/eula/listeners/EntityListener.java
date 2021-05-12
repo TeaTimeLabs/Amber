@@ -2,6 +2,7 @@ package me.nykorrin.eula.listeners;
 
 import me.nykorrin.eula.Eula;
 import me.nykorrin.sucrose.SucroseAPI;
+import me.nykorrin.sucrose.events.EventType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
@@ -69,7 +70,7 @@ public class EntityListener implements Listener {
         if (entity.getCustomName() != null) {
             // Bloodmoon entities contains entity
             if (SucroseAPI.getManagerHandler().getEventManager().getBloodmoon().getEntites().contains(entity.getCustomName())) {
-                this.plugin.getLogger().info("Bloodmoon entity killed. UUID of " + entity.getType().name() + " was " + entity.getUniqueId());
+                this.plugin.getLogger().info("Bloodmoon entity killed. UUID of " + entity.getName() + " was " + entity.getUniqueId());
 
                 if (entity.getCustomName().contains("Bloodmoon-infused Giant Zombie")) {
                     amount = this.plugin.getConfig().getDouble("events.bloodmoon.bloodmoon_giant");
@@ -81,6 +82,39 @@ public class EntityListener implements Listener {
 
                 if (entity.getCustomName().contains("Bloodmoon-infused Skeleton")) {
                     amount = this.plugin.getConfig().getDouble("events.bloodmoon.bloodmoon_skeleton");
+                }
+
+                Eula.getEconomy().depositPlayer(player, amount).transactionSuccess();
+                Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing a " + entity.getName() + ChatColor.LIGHT_PURPLE + ".");
+                return;
+            }
+
+            // Nether Raid entities contains entity
+            if (SucroseAPI.getManagerHandler().getEventManager().getNetherRaid().getEntites().contains(entity.getCustomName())) {
+                this.plugin.getLogger().info("Nether Raid entity killed. UUID of " + entity.getName() + " was " + entity.getUniqueId());
+
+                if (entity.getCustomName().contains("Piglin Brute Raider")) {
+                    amount = this.plugin.getConfig().getDouble("events.nether_raid.piglin_brute");
+                }
+
+                if (entity.getCustomName().contains("wither_skeleton_guard")) {
+                    amount = this.plugin.getConfig().getDouble("events.nether_raid.wither_skeleton_guard");
+                }
+
+                if (entity.getCustomName().contains("Piglin Raider")) {
+                    amount = this.plugin.getConfig().getDouble("events.nether_raid.piglin_raider");
+                }
+
+                if (entity.getCustomName().contains("Piglin Thief")) {
+                    amount = this.plugin.getConfig().getDouble("events.nether_raid.piglin_theif");
+                }
+
+                if (entity.getCustomName().contains("Blaze Raider")) {
+                    amount = this.plugin.getConfig().getDouble("events.nether_raid.blaze_raider");
+                }
+
+                if (entity.getCustomName().contains("Zombie Piglin Minion")) {
+                    amount = this.plugin.getConfig().getDouble("events.nether_raid.zombie_piglin_minion");
                 }
 
                 Eula.getEconomy().depositPlayer(player, amount).transactionSuccess();
@@ -113,6 +147,11 @@ public class EntityListener implements Listener {
             return;
         }
 
+        // Bloodmoo event is active
+        if (SucroseAPI.getManagerHandler().getEventManager().getEventActivity(EventType.BLOOD_MOON)) {
+            amount = amount * 2;
+        }
+
         // Ammount is greater 0
         if (amount > 0) {
             Eula.getEconomy().depositPlayer(player, amount).transactionSuccess();
@@ -122,6 +161,5 @@ public class EntityListener implements Listener {
             Eula.getEconomy().withdrawPlayer(player, Math.abs(amount)).transactionSuccess();
             player.sendMessage(ChatColor.RED + "You lost $" + Math.abs(amount) + " for killing a " + name + ".");
         }
-
     }
 }

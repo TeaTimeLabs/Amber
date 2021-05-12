@@ -49,9 +49,11 @@ events:
     bloodmoon_zombie: 300
     bloodmoon_skeleton: 200
   nether_raid:
-    piglin_brute: 1500
+    piglin_brute_raider: 1500
+    wither_skeleton_guard: 500
     piglin_raider: 300
     piglin_thief: 100
-    zombie_raider: 150
     blaze_raider: 200
-    wither_guard: 500
+    zombie_piglin_minion: 75
+
+cheated_entities:
