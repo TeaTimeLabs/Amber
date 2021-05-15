@@ -1,4 +1,5 @@
 # Eula
+[![Java CI with Maven](https://github.com/Nykorrin/Eula/actions/workflows/maven.yml/badge.svg)](https://github.com/Nykorrin/Eula/actions/workflows/maven.yml)
 [![Java CI](https://github.com/Nykorrin/Eula/actions/workflows/build.yml/badge.svg)](https://github.com/Nykorrin/Eula/actions/workflows/build.yml)
 [![Discord](https://img.shields.io/discord/213517939343622146.svg?colorB=7289da&label=discord&logo=discord&logoColor=white)](https://discord.gg/NWwF2Qs)
 
