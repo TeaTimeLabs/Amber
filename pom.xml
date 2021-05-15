@@ -6,13 +6,13 @@
 
     <groupId>me.nykorrin</groupId>
     <artifactId>Eula</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources</directory> <!-- (your resources folder location) -->
-                <filtering>true</filtering> <!-- this is the important part, it's what replaces, filters, all placeholders in the resources folder (such as ${project.version} in plugin.yml) -->
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
             </resource>
         </resources>
     </build>
@@ -49,8 +49,8 @@
         <dependency>
             <groupId>me.nykorrin</groupId>
             <artifactId>Sucrose</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
+            <version>1.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
