@@ -19,6 +19,15 @@ public class Eula extends JavaPlugin {
         long timeStart = System.currentTimeMillis();
         instance = this;
 
+        System.out.println(" _______   ___  ___  ___       ________     \n" +
+                "|\\  ___ \\ |\\  \\|\\  \\|\\  \\     |\\   __  \\    \n" +
+                "\\ \\   __/|\\ \\  \\\\\\  \\ \\  \\    \\ \\  \\|\\  \\   \n" +
+                " \\ \\  \\_|/_\\ \\  \\\\\\  \\ \\  \\    \\ \\   __  \\  \n" +
+                "  \\ \\  \\_|\\ \\ \\  \\\\\\  \\ \\  \\____\\ \\  \\ \\  \\ \n" +
+                "   \\ \\_______\\ \\_______\\ \\_______\\ \\__\\ \\__\\\n" +
+                "    \\|_______|\\|_______|\\|_______|\\|__|\\|__|\n" +
+                "                                            ");
+
         getConfig().options().copyDefaults(true);
         saveConfig();
 
