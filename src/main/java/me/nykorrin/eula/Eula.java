@@ -19,15 +19,6 @@ public class Eula extends JavaPlugin {
         long timeStart = System.currentTimeMillis();
         instance = this;
 
-        System.out.println(" _______   ___  ___  ___       ________     \n" +
-                "|\\  ___ \\ |\\  \\|\\  \\|\\  \\     |\\   __  \\    \n" +
-                "\\ \\   __/|\\ \\  \\\\\\  \\ \\  \\    \\ \\  \\|\\  \\   \n" +
-                " \\ \\  \\_|/_\\ \\  \\\\\\  \\ \\  \\    \\ \\   __  \\  \n" +
-                "  \\ \\  \\_|\\ \\ \\  \\\\\\  \\ \\  \\____\\ \\  \\ \\  \\ \n" +
-                "   \\ \\_______\\ \\_______\\ \\_______\\ \\__\\ \\__\\\n" +
-                "    \\|_______|\\|_______|\\|_______|\\|__|\\|__|\n" +
-                "                                            ");
-
         getConfig().options().copyDefaults(true);
         saveConfig();
 
@@ -41,6 +32,14 @@ public class Eula extends JavaPlugin {
 
         long timeEnd = System.currentTimeMillis();
         getLogger().info("Successfully enabled. (" + (timeEnd - timeStart) + "ms)");
+        System.out.println(" _______   ___  ___  ___       ________     \n" +
+                "|\\  ___ \\ |\\  \\|\\  \\|\\  \\     |\\   __  \\    \n" +
+                "\\ \\   __/|\\ \\  \\\\\\  \\ \\  \\    \\ \\  \\|\\  \\   \n" +
+                " \\ \\  \\_|/_\\ \\  \\\\\\  \\ \\  \\    \\ \\   __  \\  \n" +
+                "  \\ \\  \\_|\\ \\ \\  \\\\\\  \\ \\  \\____\\ \\  \\ \\  \\ \n" +
+                "   \\ \\_______\\ \\_______\\ \\_______\\ \\__\\ \\__\\\n" +
+                "    \\|_______|\\|_______|\\|_______|\\|__|\\|__|\n" +
+                "                                            ");
     }
 
     @Override
