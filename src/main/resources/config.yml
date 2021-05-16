@@ -62,5 +62,7 @@ events:
     piglin_thief: 100
     blaze_raider: 200
     zombie_piglin_minion: 75
-
-cheated_entities:
+  end_pirates:
+    enderman_pirate_captain: 1500
+    enderman_gunner: 750
+    enderman_pirate: 300

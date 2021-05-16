@@ -121,6 +121,26 @@ public class EntityListener implements Listener {
                 Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing a " + entity.getName() + ChatColor.LIGHT_PURPLE + ".");
                 return;
             }
+
+            if (SucroseAPI.getManagerHandler().getEventManager().getEndPirates().getEntites().contains(entity.getCustomName())) {
+                this.plugin.getLogger().info("End Pirates entity killed. UUID of " + entity.getName() + " was " + entity.getUniqueId());
+
+                if (entity.getCustomName().contains("Enderman Pirate Captain")) {
+                    amount = this.plugin.getConfig().getDouble("events.end_pirates.enderman_pirate_captain");
+                }
+
+                if (entity.getCustomName().contains("Enderman Pirate Gunner")) {
+                    amount = this.plugin.getConfig().getDouble("events.end_pirates.enderman_pirate_gunner");
+                }
+
+                if (entity.getCustomName().contains("Enderman Pirate")) {
+                    amount = this.plugin.getConfig().getDouble("events.end_pirates.enderman_pirate");
+                }
+
+                Eula.getEconomy().depositPlayer(player, amount).transactionSuccess();
+                Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing a " + entity.getName() + ChatColor.LIGHT_PURPLE + ".");
+            }
+
             // TODO: Add the rest of the events here
         }
 
