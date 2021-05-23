@@ -1,15 +1,15 @@
-package me.nykorrin.eula;
+package me.nykorrin.amber;
 
-import me.nykorrin.eula.listeners.EntityListener;
+import me.nykorrin.amber.listeners.EntityListener;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
 
-public class Eula extends JavaPlugin {
+public class Amber extends JavaPlugin {
 
-    private static Eula instance;
+    private static Amber instance;
 
     private static final Logger log = Logger.getLogger("Minecraft");
     private static Economy econ = null;
@@ -70,7 +70,7 @@ public class Eula extends JavaPlugin {
         return econ;
     }
 
-    public static Eula getInstance() {
+    public static Amber getInstance() {
         return instance;
     }
 }

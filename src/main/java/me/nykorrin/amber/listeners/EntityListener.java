@@ -1,6 +1,6 @@
-package me.nykorrin.eula.listeners;
+package me.nykorrin.amber.listeners;
 
-import me.nykorrin.eula.Eula;
+import me.nykorrin.amber.Amber;
 import me.nykorrin.sucrose.SucroseAPI;
 import me.nykorrin.sucrose.events.EventType;
 import org.bukkit.Bukkit;
@@ -19,10 +19,10 @@ import java.util.UUID;
 
 public class EntityListener implements Listener {
 
-    private Eula plugin;
+    private Amber plugin;
     private Set<UUID> cheatedEntities;
 
-    public EntityListener(Eula plugin) {
+    public EntityListener(Amber plugin) {
         this.plugin = plugin;
         this.cheatedEntities = new HashSet<>();
     }
@@ -34,7 +34,18 @@ public class EntityListener implements Listener {
         if (entity.getCustomName() != null) {
             if (SucroseAPI.getManagerHandler().getEventManager().getBloodmoon().getEntites().contains(entity.getCustomName())) {
                 this.plugin.getLogger().info("Bloodmoon entity detected. UUID of " + entity.getType().name() + " is " + entity.getUniqueId());
-                return;
+            }
+
+            if (SucroseAPI.getManagerHandler().getEventManager().getNetherRaid().getEntites().contains(entity.getCustomName())) {
+                this.plugin.getLogger().info("Nether Raid entity detected. UUID of " + entity.getType().name() + " is " + entity.getUniqueId());
+            }
+
+            if (SucroseAPI.getManagerHandler().getEventManager().getEndPirates().getEntites().contains(entity.getCustomName())) {
+                this.plugin.getLogger().info("End Pirate entity detected. UUID of " + entity.getType().name() + " is " + entity.getUniqueId());
+            }
+
+            if (SucroseAPI.getManagerHandler().getEventManager().getKokushibo().getNPCs().get(0).getEntity() == entity) {
+                this.plugin.getLogger().info("Kokushibo entity detected. UUID of NPC is " + entity.getUniqueId());
             }
         }
 
@@ -84,7 +95,7 @@ public class EntityListener implements Listener {
                     amount = this.plugin.getConfig().getDouble("events.bloodmoon.bloodmoon_skeleton");
                 }
 
-                Eula.getEconomy().depositPlayer(player, amount).transactionSuccess();
+                Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
                 Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing a " + entity.getName() + ChatColor.LIGHT_PURPLE + ".");
                 return;
             }
@@ -117,7 +128,7 @@ public class EntityListener implements Listener {
                     amount = this.plugin.getConfig().getDouble("events.nether_raid.zombie_piglin_minion");
                 }
 
-                Eula.getEconomy().depositPlayer(player, amount).transactionSuccess();
+                Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
                 Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing a " + entity.getName() + ChatColor.LIGHT_PURPLE + ".");
                 return;
             }
@@ -137,8 +148,17 @@ public class EntityListener implements Listener {
                     amount = this.plugin.getConfig().getDouble("events.end_pirates.enderman_pirate");
                 }
 
-                Eula.getEconomy().depositPlayer(player, amount).transactionSuccess();
+                Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
                 Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing a " + entity.getName() + ChatColor.LIGHT_PURPLE + ".");
+            }
+
+            if (SucroseAPI.getManagerHandler().getEventManager().getKokushibo().getNPCs().get(0).getEntity() == entity) {
+                this.plugin.getLogger().info("End Pirates entity killed. UUID of " + entity.getName() + " was " + entity.getUniqueId());
+
+                amount = this.plugin.getConfig().getDouble("events.kokushibo.kokushibo");
+
+                Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
+                Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing Upper Moon One: Kokushibō.");
             }
 
             // TODO: Add the rest of the events here
@@ -174,11 +194,11 @@ public class EntityListener implements Listener {
 
         // Ammount is greater 0
         if (amount > 0) {
-            Eula.getEconomy().depositPlayer(player, amount).transactionSuccess();
+            Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
             player.sendMessage(ChatColor.GREEN + "You earned $" + amount + " for killing a " + name + ".");
             // Amount is less than 0
         } else {
-            Eula.getEconomy().withdrawPlayer(player, Math.abs(amount)).transactionSuccess();
+            Amber.getEconomy().withdrawPlayer(player, Math.abs(amount)).transactionSuccess();
             player.sendMessage(ChatColor.RED + "You lost $" + Math.abs(amount) + " for killing a " + name + ".");
         }
     }
