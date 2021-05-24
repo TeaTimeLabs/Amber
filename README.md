@@ -12,3 +12,11 @@ Simple monster economy plugin.
 
 ### Maven
 * [Sucrose](https://github.com/Nykorrin/Sucrose) (*private repository*)
+
+# Notable Changes
+* Fixed spawn logs of event entities.
+* Added compatibility for End Pirates & Kokushibo.
+
+# Todo
+* Add the rest of the events.
+    * Rimuru the Slime.

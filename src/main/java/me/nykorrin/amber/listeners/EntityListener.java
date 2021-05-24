@@ -3,6 +3,7 @@ package me.nykorrin.amber.listeners;
 import me.nykorrin.amber.Amber;
 import me.nykorrin.sucrose.SucroseAPI;
 import me.nykorrin.sucrose.events.EventType;
+import net.citizensnpcs.api.event.SpawnReason;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
@@ -44,7 +45,7 @@ public class EntityListener implements Listener {
                 this.plugin.getLogger().info("End Pirate entity detected. UUID of " + entity.getType().name() + " is " + entity.getUniqueId());
             }
 
-            if (SucroseAPI.getManagerHandler().getEventManager().getKokushibo().getNPCs().get(0).getEntity() == entity) {
+            if (entity.hasMetadata("NPC")) {
                 this.plugin.getLogger().info("Kokushibo entity detected. UUID of NPC is " + entity.getUniqueId());
             }
         }
@@ -108,7 +109,7 @@ public class EntityListener implements Listener {
                     amount = this.plugin.getConfig().getDouble("events.nether_raid.piglin_brute");
                 }
 
-                if (entity.getCustomName().contains("wither_skeleton_guard")) {
+                if (entity.getCustomName().contains("Wither Skeleton Guard")) {
                     amount = this.plugin.getConfig().getDouble("events.nether_raid.wither_skeleton_guard");
                 }
 
@@ -133,6 +134,7 @@ public class EntityListener implements Listener {
                 return;
             }
 
+            // End Pirates entities contains entity
             if (SucroseAPI.getManagerHandler().getEventManager().getEndPirates().getEntites().contains(entity.getCustomName())) {
                 this.plugin.getLogger().info("End Pirates entity killed. UUID of " + entity.getName() + " was " + entity.getUniqueId());
 
@@ -152,8 +154,9 @@ public class EntityListener implements Listener {
                 Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing a " + entity.getName() + ChatColor.LIGHT_PURPLE + ".");
             }
 
-            if (SucroseAPI.getManagerHandler().getEventManager().getKokushibo().getNPCs().get(0).getEntity() == entity) {
-                this.plugin.getLogger().info("End Pirates entity killed. UUID of " + entity.getName() + " was " + entity.getUniqueId());
+            // Kokushibo entities contains entity
+            if (entity.hasMetadata("NPC")) {
+                this.plugin.getLogger().info("Kokushibo entity killed. UUID of Kokushibo was " + entity.getUniqueId());
 
                 amount = this.plugin.getConfig().getDouble("events.kokushibo.kokushibo");
 
