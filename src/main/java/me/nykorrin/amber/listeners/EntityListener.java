@@ -3,7 +3,6 @@ package me.nykorrin.amber.listeners;
 import me.nykorrin.amber.Amber;
 import me.nykorrin.sucrose.SucroseAPI;
 import me.nykorrin.sucrose.events.EventType;
-import net.citizensnpcs.api.event.SpawnReason;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
@@ -45,18 +44,15 @@ public class EntityListener implements Listener {
                 this.plugin.getLogger().info("End Pirate entity detected. UUID of " + entity.getType().name() + " is " + entity.getUniqueId());
             }
 
-            if (entity.hasMetadata("NPC")) {
+            if (entity.hasMetadata("NPC") && entity.getCustomName().contains("Kokushib")) {
                 this.plugin.getLogger().info("Kokushibo entity detected. UUID of NPC is " + entity.getUniqueId());
             }
         }
 
-        // Spawn reason is either via spawn egg or custom
-        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG || event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM) {
-            // Cycle entity types
+        
+        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.SPAWNER_EGG) {
             for (EntityType type : EntityType.values()) {
-                // Entity type is type
                 if (entity.getType() == type) {
-                    // Config contains entity
                     if (this.plugin.getConfig().contains("monsters." + type.name().toLowerCase())) {
                         cheatedEntities.add(entity.getUniqueId());
                         this.plugin.getLogger().info("Cheated entity detected. UUID of " + entity.getName() + " is " + entity.getUniqueId());
@@ -73,14 +69,11 @@ public class EntityListener implements Listener {
         String name = entity.getName();
         double amount = 0;
 
-        // Player is null
         if (player == null) {
             return;
         }
 
-        // Entity has a name
         if (entity.getCustomName() != null) {
-            // Bloodmoon entities contains entity
             if (SucroseAPI.getManagerHandler().getEventManager().getBloodmoon().getEntites().contains(entity.getCustomName())) {
                 this.plugin.getLogger().info("Bloodmoon entity killed. UUID of " + entity.getName() + " was " + entity.getUniqueId());
 
@@ -101,7 +94,6 @@ public class EntityListener implements Listener {
                 return;
             }
 
-            // Nether Raid entities contains entity
             if (SucroseAPI.getManagerHandler().getEventManager().getNetherRaid().getEntites().contains(entity.getCustomName())) {
                 this.plugin.getLogger().info("Nether Raid entity killed. UUID of " + entity.getName() + " was " + entity.getUniqueId());
 
@@ -134,7 +126,6 @@ public class EntityListener implements Listener {
                 return;
             }
 
-            // End Pirates entities contains entity
             if (SucroseAPI.getManagerHandler().getEventManager().getEndPirates().getEntites().contains(entity.getCustomName())) {
                 this.plugin.getLogger().info("End Pirates entity killed. UUID of " + entity.getName() + " was " + entity.getUniqueId());
 
@@ -154,8 +145,7 @@ public class EntityListener implements Listener {
                 Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing a " + entity.getName() + ChatColor.LIGHT_PURPLE + ".");
             }
 
-            // Kokushibo entities contains entity
-            if (entity.hasMetadata("NPC")) {
+            if (entity.hasMetadata("NPC") && entity.getCustomName().contains("Kokushib")) {
                 this.plugin.getLogger().info("Kokushibo entity killed. UUID of Kokushibo was " + entity.getUniqueId());
 
                 amount = this.plugin.getConfig().getDouble("events.kokushibo.kokushibo");
@@ -163,17 +153,11 @@ public class EntityListener implements Listener {
                 Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
                 Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing Upper Moon One: Kokushibō.");
             }
-
-            // TODO: Add the rest of the events here
         }
 
-        // Cycle entity types
         for (EntityType type : EntityType.values()) {
-            // Entity type is type
             if (entity.getType() == type) {
-                // Config contains entity
                 if (this.plugin.getConfig().contains("monsters." + type.name().toLowerCase())) {
-                    // Entity is cheated entity
                     if (cheatedEntities.contains(entity.getUniqueId())) {
                         this.plugin.getLogger().info("Cheated entity killed. UUID of " + entity.getName() + " was " + entity.getUniqueId());
                         cheatedEntities.remove(entity.getUniqueId());
@@ -185,21 +169,17 @@ public class EntityListener implements Listener {
             }
         }
 
-        // Amount is 0
         if (amount == 0) {
             return;
         }
 
-        // Bloodmoo event is active
         if (SucroseAPI.getManagerHandler().getEventManager().getEventActivity(EventType.BLOOD_MOON)) {
             amount = amount * 2;
         }
 
-        // Ammount is greater 0
         if (amount > 0) {
             Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
             player.sendMessage(ChatColor.GREEN + "You earned $" + amount + " for killing a " + name + ".");
-            // Amount is less than 0
         } else {
             Amber.getEconomy().withdrawPlayer(player, Math.abs(amount)).transactionSuccess();
             player.sendMessage(ChatColor.RED + "You lost $" + Math.abs(amount) + " for killing a " + name + ".");
