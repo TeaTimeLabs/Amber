@@ -1,5 +1,5 @@
 # Amber
-[![Discord](https://img.shields.io/discord/213517939343622146.svg?colorB=7289da&label=discord&logo=discord&logoColor=white)](https://discord.gg/NWwF2Qs)
+[![Discord](https://img.shields.io/discord/213517939343622146.svg?colorB=7289da&label=discord&logo=discord&logoColor=white)](https://discord.gg/6aBFhAHUs7)
 
 Simple monster economy plugin.
 
@@ -12,10 +12,6 @@ Simple monster economy plugin.
 
 ### Maven
 * [Sucrose](https://github.com/Nykorrin/Sucrose) (*private repository*)
-
-# Notable Changes
-* Fixed spawn logs of event entities.
-* Added compatibility for End Pirates & Kokushibo.
 
 # Todo
 * Add the rest of the events.
