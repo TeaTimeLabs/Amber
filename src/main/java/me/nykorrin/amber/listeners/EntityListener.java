@@ -3,12 +3,16 @@ package me.nykorrin.amber.listeners;
 import me.nykorrin.amber.Amber;
 import me.nykorrin.sucrose.SucroseAPI;
 import me.nykorrin.sucrose.events.EventType;
+import net.citizensnpcs.api.event.NPCDeathEvent;
+import net.citizensnpcs.api.event.NPCSpawnEvent;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -27,11 +31,45 @@ public class EntityListener implements Listener {
         this.cheatedEntities = new HashSet<>();
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST)
+    public void onNPCSpawn(NPCSpawnEvent event) {
+        NPC npc = event.getNPC();
+        LivingEntity entity = (LivingEntity) npc.getEntity();
+
+        if (!SucroseAPI.getManagerHandler().getEventManager().getKokushibo().getNPCs().isEmpty()) {
+            if (SucroseAPI.getManagerHandler().getEventManager().getKokushibo().getNPCs().contains(npc)) {
+                this.plugin.getLogger().info("Kokushibo entity detected. UUID of NPC is " + entity.getUniqueId());
+            }
+        }
+    }
+
+    @EventHandler (priority = EventPriority.LOWEST)
+    public void onNPCDeath(NPCDeathEvent event) {
+        NPC npc = event.getNPC();
+        LivingEntity entity = (LivingEntity) npc.getEntity();
+        Player player = entity.getKiller();
+
+        if (player == null) {
+            return;
+        }
+
+        if (SucroseAPI.getManagerHandler().getEventManager().getKokushibo().getNPCs().contains(npc)) { //
+            System.out.println("contains npc");
+            this.plugin.getLogger().info("Kokushibo entity killed. UUID of Kokushibo was " + entity.getUniqueId());
+
+            double amount = this.plugin.getConfig().getDouble("events.kokushibo.kokushibo");
+            System.out.println("AMBER GAYEAGJEGJLWKGMKLGMB:MB");
+
+            Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
+            Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing Upper Moon One: Kokushibō.");
+        }
+    }
+
+    @EventHandler (priority = EventPriority.LOWEST)
     public void onEntitySpawn(CreatureSpawnEvent event) {
         LivingEntity entity = event.getEntity();
 
-        if (entity.getCustomName() != null) {
+        if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.CUSTOM) {
             if (SucroseAPI.getManagerHandler().getEventManager().getBloodmoon().getEntites().contains(entity.getCustomName())) {
                 this.plugin.getLogger().info("Bloodmoon entity detected. UUID of " + entity.getType().name() + " is " + entity.getUniqueId());
             }
@@ -42,10 +80,6 @@ public class EntityListener implements Listener {
 
             if (SucroseAPI.getManagerHandler().getEventManager().getEndPirates().getEntites().contains(entity.getCustomName())) {
                 this.plugin.getLogger().info("End Pirate entity detected. UUID of " + entity.getType().name() + " is " + entity.getUniqueId());
-            }
-
-            if (entity.hasMetadata("NPC") && entity.getCustomName().contains("Kokushib")) {
-                this.plugin.getLogger().info("Kokushibo entity detected. UUID of NPC is " + entity.getUniqueId());
             }
         }
 
@@ -62,7 +96,7 @@ public class EntityListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST)
     public void onEntityDeath(EntityDeathEvent event) {
         LivingEntity entity = event.getEntity();
         Player player = entity.getKiller();
@@ -143,15 +177,7 @@ public class EntityListener implements Listener {
 
                 Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
                 Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing a " + entity.getName() + ChatColor.LIGHT_PURPLE + ".");
-            }
-
-            if (entity.hasMetadata("NPC") && entity.getCustomName().contains("Kokushib")) {
-                this.plugin.getLogger().info("Kokushibo entity killed. UUID of Kokushibo was " + entity.getUniqueId());
-
-                amount = this.plugin.getConfig().getDouble("events.kokushibo.kokushibo");
-
-                Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
-                Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing Upper Moon One: Kokushibō.");
+                return;
             }
         }
 
