@@ -28,6 +28,12 @@ public class Amber extends JavaPlugin {
             return;
         }
 
+        if (!setupCitizens()) {
+            log.severe(String.format("[%s] - Disabled due to no Citizens dependency found!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         getServer().getPluginManager().registerEvents(new EntityListener(this), this);
 
         long timeEnd = System.currentTimeMillis();
@@ -64,6 +70,10 @@ public class Amber extends JavaPlugin {
         econ = rsp.getProvider();
 
         return econ != null;
+    }
+
+    private boolean setupCitizens() {
+        return getServer().getPluginManager().getPlugin("Citizens") != null;
     }
 
     public static Economy getEconomy() {

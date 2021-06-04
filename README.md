@@ -9,9 +9,11 @@ Simple monster economy plugin.
 ## Dependencies
 ### Plugins
 * [Vault](https://www.spigotmc.org/resources/vault.34315/)
+* [Citizens](https://www.spigotmc.org/resources/citizens.13811/)
 
 ### Maven
 * [Sucrose](https://github.com/Nykorrin/Sucrose) (*private repository*)
+* [Citizens](https://github.com/CitizensDev/Citizens2)
 
 # Todo
 * Add the rest of the events.
