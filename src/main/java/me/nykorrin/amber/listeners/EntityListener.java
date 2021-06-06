@@ -54,11 +54,9 @@ public class EntityListener implements Listener {
         }
 
         if (SucroseAPI.getManagerHandler().getEventManager().getKokushibo().getNPCs().contains(npc)) { //
-            System.out.println("contains npc");
             this.plugin.getLogger().info("Kokushibo entity killed. UUID of Kokushibo was " + entity.getUniqueId());
 
             double amount = this.plugin.getConfig().getDouble("events.kokushibo.kokushibo");
-            System.out.println("AMBER GAYEAGJEGJLWKGMKLGMB:MB");
 
             Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
             Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE + player.getName() + " earned $" + amount + " for killing Upper Moon One: Kokushibō.");
