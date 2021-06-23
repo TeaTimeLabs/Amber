@@ -62,9 +62,8 @@ events:
     piglin_thief: 100
     blaze_raider: 200
     zombie_piglin_minion: 75
-  end_pirates:
-    enderman_pirate_captain: 1500
-    enderman_gunner: 750
-    enderman_pirate: 300
   kokushibo:
     kokushibo: 3000
+  doma:
+    doma: 2000
+    crystalline_divine_child: 500
