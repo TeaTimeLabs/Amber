@@ -162,7 +162,7 @@ public class EntityListener implements Listener {
                 }
 
                 if (entity.getCustomName().contains("Piglin Thief")) {
-                    amount = this.plugin.getConfig().getDouble("events.nether_raid.piglin_theif");
+                    amount = this.plugin.getConfig().getDouble("events.nether_raid.piglin_thief");
                 }
 
                 if (entity.getCustomName().contains("Blaze Raider")) {
