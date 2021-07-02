@@ -52,18 +52,18 @@ monsters:
   piglin_brute: 200
 events:
   bloodmoon:
-    bloodmoon_giant: 2000
-    bloodmoon_zombie: 300
-    bloodmoon_skeleton: 200
+    bloodmoon_giant: 4000
+    bloodmoon_zombie: 500
+    bloodmoon_skeleton: 300
   nether_raid:
-    piglin_brute_raider: 1500
-    wither_skeleton_guard: 500
-    piglin_raider: 300
-    piglin_thief: 100
-    blaze_raider: 200
-    zombie_piglin_minion: 75
+    piglin_brute_raider: 3000
+    wither_skeleton_guard: 700
+    piglin_raider: 500
+    piglin_thief: 150
+    blaze_raider: 300
+    zombie_piglin_minion: 100
   kokushibo:
-    kokushibo: 3000
+    kokushibo: 7000
   doma:
-    doma: 2000
+    doma: 6000
     crystalline_divine_child: 500
