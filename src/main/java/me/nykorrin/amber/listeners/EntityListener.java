@@ -201,12 +201,16 @@ public class EntityListener implements Listener {
             amount = amount * 2;
         }
 
-        if (SucroseAPI.getPlugin().getDataConfig().getCachedYML().getBoolean("options." + player.getUniqueId() + ".economy_messages")) {
-            if (amount > 0) {
-                Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
+        if (amount > 0) {
+            Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
+
+            if (SucroseAPI.getPlugin().getDataConfig().getCachedYML().getBoolean("options." + player.getUniqueId() + ".economy_messages")) {
                 player.sendMessage(ChatColor.GREEN + "You earned $" + amount + " for killing a " + name + ".");
-            } else {
-                Amber.getEconomy().withdrawPlayer(player, Math.abs(amount)).transactionSuccess();
+            }
+        } else {
+            Amber.getEconomy().withdrawPlayer(player, Math.abs(amount)).transactionSuccess();
+
+            if (SucroseAPI.getPlugin().getDataConfig().getCachedYML().getBoolean("options." + player.getUniqueId() + ".economy_messages")) {
                 player.sendMessage(ChatColor.RED + "You lost $" + Math.abs(amount) + " for killing a " + name + ".");
             }
         }
