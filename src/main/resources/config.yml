@@ -56,14 +56,14 @@ events:
     bloodmoon_zombie: 500
     bloodmoon_skeleton: 300
   nether_raid:
-    piglin_brute_raider: 3000
+    piglin_brute_raider: 5000
     wither_skeleton_guard: 700
     piglin_raider: 500
     piglin_thief: 150
     blaze_raider: 300
     zombie_piglin_minion: 100
   kokushibo:
-    kokushibo: 7000
+    kokushibo: 10000
   doma:
-    doma: 6000
-    crystalline_divine_child: 500
+    doma: 10000
+    crystalline_divine_child: 2500
