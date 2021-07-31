@@ -1,20 +1,4 @@
 # Amber
 [![Discord](https://img.shields.io/discord/213517939343622146.svg?colorB=7289da&label=discord&logo=discord&logoColor=white)](https://discord.gg/6aBFhAHUs7)
 
-Simple monster economy plugin.
-
-## Features
-* Monster economy
-
-## Dependencies
-### Plugins
-* [Vault](https://www.spigotmc.org/resources/vault.34315/)
-* [Citizens](https://www.spigotmc.org/resources/citizens.13811/)
-
-### Maven
-* [Sucrose](https://github.com/Nykorrin/Sucrose) (*private repository*)
-* [Citizens](https://github.com/CitizensDev/Citizens2)
-
-# Todo
-* Add the rest of the events.
-    * Rimuru the Slime.
+Always energetic and full of life, Amber's the best - albeit only - Outrider of the Knights of Favonius.
