@@ -1,86 +1,95 @@
 package me.nykorrin.amber;
 
 import me.nykorrin.amber.listeners.EntityListener;
+import me.nykorrin.amber.manager.ManagerHandler;
+import me.nykorrin.ayaka.util.DataHandler;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class Amber extends JavaPlugin {
 
     private static Amber instance;
 
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private ManagerHandler managerHandler;
     private static Economy econ = null;
+
+    private DataHandler.YML dataHandler;
 
     @Override
     public void onEnable() {
         long timeStart = System.currentTimeMillis();
+
+        if (!setupEconomy()) {
+            getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         instance = this;
+        dataHandler = new DataHandler.YML(this, "/data.yml");
 
         getConfig().options().copyDefaults(true);
+        dataHandler.getCachedYML().options().copyDefaults(true);
         saveConfig();
+        dataHandler.saveYML();
 
-        if (!setupEconomy() ) {
-            log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        if (!setupCitizens()) {
-            log.severe(String.format("[%s] - Disabled due to no Citizens dependency found!", getDescription().getName()));
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
+        registerManagers();
         getServer().getPluginManager().registerEvents(new EntityListener(this), this);
 
         long timeEnd = System.currentTimeMillis();
-        getLogger().info("Successfully enabled. (" + (timeEnd - timeStart) + "ms)");
-        System.out.println(" ________  _____ ______   ________  _______   ________         \n" +
-                "|\\   __  \\|\\   _ \\  _   \\|\\   __  \\|\\  ___ \\ |\\   __  \\        \n" +
-                "\\ \\  \\|\\  \\ \\  \\\\\\__\\ \\  \\ \\  \\|\\ /\\ \\   __/|\\ \\  \\|\\  \\       \n" +
-                " \\ \\   __  \\ \\  \\\\|__| \\  \\ \\   __  \\ \\  \\_|/_\\ \\   _  _\\      \n" +
-                "  \\ \\  \\ \\  \\ \\  \\    \\ \\  \\ \\  \\|\\  \\ \\  \\_|\\ \\ \\  \\\\  \\|     \n" +
-                "   \\ \\__\\ \\__\\ \\__\\    \\ \\__\\ \\_______\\ \\_______\\ \\__\\\\ _\\     \n" +
-                "    \\|__|\\|__|\\|__|     \\|__|\\|_______|\\|_______|\\|__|\\|__|    \n" +
-                "                                            ");
+        getLogger().info("Successfully enabled in " + (timeEnd - timeStart) + "ms");
     }
 
     @Override
     public void onDisable() {
-        instance = null;
+        long timeStart = System.currentTimeMillis();
 
         saveConfig();
+        managerHandler.getEntityManager().save();
 
-        log.info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
+        instance = null;
+        long timeEnd = System.currentTimeMillis();
+        getLogger().info("Successfully disabled in " + (timeEnd - timeStart) + "ms");
     }
 
     private boolean setupEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
-
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
             return false;
         }
-
         econ = rsp.getProvider();
-
         return econ != null;
     }
 
-    private boolean setupCitizens() {
-        return getServer().getPluginManager().getPlugin("Citizens") != null;
+    public void debug(Level level, String debug) {
+        if (getConfig().getBoolean("server.debug")) {
+            getLogger().log(level, debug);
+        }
+    }
+
+    private void registerManagers() {
+        managerHandler = new ManagerHandler(this);
+    }
+
+    public static Amber getInstance() {
+        return instance;
+    }
+
+    public ManagerHandler getManagerHandler() {
+        return managerHandler;
     }
 
     public static Economy getEconomy() {
         return econ;
     }
 
-    public static Amber getInstance() {
-        return instance;
+    public DataHandler.YML getDataHandler() {
+        return dataHandler;
     }
 }
