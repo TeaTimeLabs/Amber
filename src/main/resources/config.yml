@@ -1,10 +1,5 @@
-#  ________  _____ ______   ________  _______   ________
-# |\   __  \|\   _ \  _   \|\   __  \|\  ___ \ |\   __  \
-# \ \  \|\  \ \  \\\__\ \  \ \  \|\ /\ \   __/|\ \  \|\  \
-#  \ \   __  \ \  \\|__| \  \ \   __  \ \  \_|/_\ \   _  _\
-#   \ \  \ \  \ \  \    \ \  \ \  \|\  \ \  \_|\ \ \  \\  \|
-#    \ \__\ \__\ \__\    \ \__\ \_______\ \_______\ \__\\ _\
-#     \|__|\|__|\|__|     \|__|\|_______|\|_______|\|__|\|__|
+server:
+  debug: false
 monsters:
   elder_guardian: 40
   wither_skeleton: 100
@@ -50,20 +45,3 @@ monsters:
   piglin: 20
   zoglin: 80
   piglin_brute: 200
-events:
-  bloodmoon:
-    bloodmoon_giant: 4000
-    bloodmoon_zombie: 500
-    bloodmoon_skeleton: 300
-  nether_raid:
-    piglin_brute_raider: 5000
-    wither_skeleton_guard: 700
-    piglin_raider: 500
-    piglin_thief: 150
-    blaze_raider: 300
-    zombie_piglin_minion: 100
-  kokushibo:
-    kokushibo: 10000
-  doma:
-    doma: 10000
-    crystalline_divine_child: 2500
