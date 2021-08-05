@@ -58,6 +58,10 @@ public class EntityManager extends Manager {
         spawnerList.remove(uuid);
     }
 
+    public List<UUID> getCheatedList() {
+        return cheatedList;
+    }
+
     public void save() {
         List<String> saveCheated = new ArrayList<>();
         for (UUID uuid : cheatedList) {

@@ -1,5 +1,6 @@
 server:
   debug: false
+  clear-cheated: false
 monsters:
   elder_guardian: 40
   wither_skeleton: 100

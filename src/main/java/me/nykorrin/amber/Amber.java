@@ -4,9 +4,11 @@ import me.nykorrin.amber.listeners.EntityListener;
 import me.nykorrin.amber.manager.ManagerHandler;
 import me.nykorrin.ayaka.util.DataHandler;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class Amber extends JavaPlugin {
@@ -46,6 +48,14 @@ public class Amber extends JavaPlugin {
     @Override
     public void onDisable() {
         long timeStart = System.currentTimeMillis();
+
+        if (getConfig().getBoolean("server.clear-cheated")) {
+            for (UUID uuid : managerHandler.getEntityManager().getCheatedList()) {
+                if (Bukkit.getEntity(uuid) != null) {
+                    Bukkit.getEntity(uuid).remove();
+                }
+            }
+        }
 
         saveConfig();
         managerHandler.getEntityManager().save();
