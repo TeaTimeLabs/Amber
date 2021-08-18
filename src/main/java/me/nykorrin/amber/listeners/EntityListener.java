@@ -2,6 +2,9 @@ package me.nykorrin.amber.listeners;
 
 import me.nykorrin.amber.Amber;
 import me.nykorrin.ayaka.AyakaAPI;
+import me.nykorrin.ganyu.GanyuAPI;
+import me.nykorrin.ganyu.events.EventType;
+import me.nykorrin.ganyu.events.bloodmoon.BloodMoon;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -56,7 +59,24 @@ public class EntityListener implements Listener {
         if (amount == 0) return;
 
         if (this.plugin.getManagerHandler().getEntityManager().isSpawnerEntity(entity.getUniqueId())) {
-            amount = amount / 2;
+            amount /= amount;
+        }
+
+        if (GanyuAPI.getEventManager().isActive(EventType.BLOOD_MOON)) {
+            amount *= 2;
+
+            BloodMoon bloodMoon = GanyuAPI.getEventManager().getBloodMoon();
+
+            if (bloodMoon.getBoss().equals(entity.getUniqueId())) {
+                amount = this.plugin.getConfig().getDouble("monsters.events.blood-moon.giant-zombie");
+            }
+
+            if (bloodMoon.getEntityList().contains(entity.getUniqueId())) {
+                switch (event.getEntityType()) {
+                    case SKELETON -> amount = this.plugin.getConfig().getDouble("monsters.events.blood-moon.skeleton");
+                    case ZOMBIE -> amount = this.plugin.getConfig().getDouble("monsters.events.blood-moon.zombie");
+                }
+            }
         }
 
         Player player = entity.getKiller();

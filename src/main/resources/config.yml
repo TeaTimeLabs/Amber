@@ -46,3 +46,8 @@ monsters:
   piglin: 20
   zoglin: 80
   piglin_brute: 200
+  events:
+    blood-moon:
+      giant-zombie: 3000
+      skeleton: 500
+      zombie: 800
