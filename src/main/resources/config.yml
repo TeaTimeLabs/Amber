@@ -51,3 +51,10 @@ monsters:
       giant-zombie: 3000
       skeleton: 500
       zombie: 800
+    nether-raid:
+      piglin-brute: 2000
+      wither-skeleton: 500
+      piglin-thief: 80
+      piglin-raider: 250
+      blaze: 100
+      zombified-piglin: 100

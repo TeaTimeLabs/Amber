@@ -5,6 +5,7 @@ import me.nykorrin.ayaka.AyakaAPI;
 import me.nykorrin.ganyu.GanyuAPI;
 import me.nykorrin.ganyu.events.EventType;
 import me.nykorrin.ganyu.events.bloodmoon.BloodMoon;
+import me.nykorrin.ganyu.events.netherraid.NetherRaid;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -54,6 +55,7 @@ public class EntityListener implements Listener {
             this.plugin.getManagerHandler().getEntityManager().removeCheatedEntity(entity.getUniqueId());
             return;
         }
+
         double amount = this.plugin.getConfig().getDouble("monsters." + event.getEntityType().name().toLowerCase());
 
         if (amount == 0) return;
@@ -75,6 +77,29 @@ public class EntityListener implements Listener {
                 switch (event.getEntityType()) {
                     case SKELETON -> amount = this.plugin.getConfig().getDouble("monsters.events.blood-moon.skeleton");
                     case ZOMBIE -> amount = this.plugin.getConfig().getDouble("monsters.events.blood-moon.zombie");
+                }
+            }
+        }
+
+        if (GanyuAPI.getEventManager().isActive(EventType.NETHER_RAID)) {
+            NetherRaid netherRaid = GanyuAPI.getEventManager().getNetherRaid();
+
+            if (netherRaid.getBoss().equals(entity.getUniqueId())) {
+                amount = this.plugin.getConfig().getDouble("monsters.events.nether-raid.piglin-brute");
+            }
+
+            if (netherRaid.getEntityList().contains(entity.getUniqueId())) {
+                switch (event.getEntityType()) {
+                    case WITHER_SKELETON -> this.plugin.getConfig().getDouble("monsters.events.nether-raid.wither-skeleton");
+                    case PIGLIN -> {
+                        if (entity.hasMetadata("piglinThief")) {
+                            this.plugin.getConfig().getDouble("monsters.events.nether-raid.piglin-thief");
+                        } else {
+                            this.plugin.getConfig().getDouble("monsters.events.nether-raid.piglin-raider");
+                        }
+                    }
+                    case BLAZE -> this.plugin.getConfig().getDouble("monsters.events.nether-raid.blaze");
+                    case ZOMBIFIED_PIGLIN -> amount = this.plugin.getConfig().getDouble("monsters.events.nether-raid.zombified-piglin");
                 }
             }
         }
