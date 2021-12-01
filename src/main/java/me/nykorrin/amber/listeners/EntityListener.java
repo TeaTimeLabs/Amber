@@ -49,22 +49,24 @@ public class EntityListener implements Listener {
         LivingEntity entity = event.getEntity();
 
         if (entity.getKiller() == null) return;
-        if (!this.plugin.getConfig().contains("monsters." + event.getEntityType().name().toLowerCase())) return;
+        if (!this.plugin.getConfig().contains("monsters." + entity.getType().name().toLowerCase())) return;
 
         if (this.plugin.getManagerHandler().getEntityManager().isCheatedEntity(entity.getUniqueId())) {
             this.plugin.getManagerHandler().getEntityManager().removeCheatedEntity(entity.getUniqueId());
             return;
         }
 
-        double amount = this.plugin.getConfig().getDouble("monsters." + event.getEntityType().name().toLowerCase());
+        double amount = this.plugin.getConfig().getDouble("monsters." + entity.getType().name().toLowerCase());
 
         if (amount == 0) return;
 
         if (this.plugin.getManagerHandler().getEntityManager().isSpawnerEntity(entity.getUniqueId())) {
-            amount /= amount;
+            amount /= 2;
         }
 
-        if (GanyuAPI.getEventManager().isActive(EventType.BLOOD_MOON)) {
+        // TODO: 12/1/2021 Fix Ganyu
+
+        /*if (GanyuAPI.getEventManager().isActive(EventType.BLOOD_MOON)) {
             amount *= 2;
 
             BloodMoon bloodMoon = GanyuAPI.getEventManager().getBloodMoon();
@@ -102,17 +104,17 @@ public class EntityListener implements Listener {
                     case ZOMBIFIED_PIGLIN -> amount = this.plugin.getConfig().getDouble("monsters.events.nether-raid.zombified-piglin");
                 }
             }
-        }
+        }*/
 
         Player player = entity.getKiller();
 
         if (amount > 0) {
-            if (AyakaAPI.getDataHandler().getCachedYML().getBoolean("options." + player.getUniqueId() + ".economy-messages")) {
+            if (AyakaAPI.getDataHandler().getCachedYML().getBoolean("options." + player.getUniqueId() + ".economy-visible")) {
                 player.sendMessage(ChatColor.GREEN + "You earned $" + amount + " for killing a " + entity.getName() + ".");
             }
             Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
         } else {
-            if (AyakaAPI.getDataHandler().getCachedYML().getBoolean("options." + player.getUniqueId() + ".economy-messages")) {
+            if (AyakaAPI.getDataHandler().getCachedYML().getBoolean("options." + player.getUniqueId() + ".economy-visible")) {
                 player.sendMessage(ChatColor.RED + "You lost $" + Math.abs(amount) + " for killing a " + entity.getName() + ".");
             }
             Amber.getEconomy().withdrawPlayer(player, Math.abs(amount)).transactionSuccess();
