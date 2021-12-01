@@ -77,14 +77,14 @@ public class Amber extends JavaPlugin {
         return econ != null;
     }
 
+    private void registerManagers() {
+        managerHandler = new ManagerHandler(this);
+    }
+
     public void debug(Level level, String debug) {
         if (getConfig().getBoolean("server.debug")) {
             getLogger().log(level, debug);
         }
-    }
-
-    private void registerManagers() {
-        managerHandler = new ManagerHandler(this);
     }
 
     public static Amber getInstance() {
