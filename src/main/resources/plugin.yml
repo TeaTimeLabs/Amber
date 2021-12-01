@@ -1,7 +1,7 @@
 name: Amber
 author: Nykorrin
 version: ${project.version}
-api-version: 1.17
+api-version: 1.18
 main: me.nykorrin.amber.Amber
 website: https://github.com/TeaTimeLabs/Amber
 description: Always energetic and full of life, Amber's the best - albeit only - Outrider of the Knights of Favonius.
