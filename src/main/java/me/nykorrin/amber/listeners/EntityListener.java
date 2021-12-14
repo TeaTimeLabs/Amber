@@ -65,19 +65,38 @@ public class EntityListener implements Listener {
         if (amount == 0) return;
 
         if (this.plugin.getManagerHandler().getEntityManager().isSpawnerEntity(entity.getUniqueId())) {
+            event.setDroppedExp(event.getDroppedExp() / 2);
             amount /= 2;
         }
 
-        // TODO: 12/1/2021 Fix Ganyu
+        switch (entity.getType()) {
+            case SILVERFISH -> {
+                Player player = entity.getKiller();
 
-        /*if (GanyuAPI.getEventManager().isActive(EventType.BLOOD_MOON)) {
-            amount *= 2;
+                if (!player.getInventory().getItemInMainHand().hasItemMeta()) return;
+                if (!player.getInventory().getItemInMainHand().getItemMeta().hasEnchants()) return;
 
-            BloodMoon bloodMoon = GanyuAPI.getEventManager().getBloodMoon();
+                if (player.getInventory().getItemInMainHand().getItemMeta().hasEnchant(Enchantment.LOOT_BONUS_MOBS)) {
+                    int level = player.getInventory().getItemInMainHand().getItemMeta().getEnchantLevel(Enchantment.LOOT_BONUS_MOBS);
 
-            if (bloodMoon.getBoss().equals(entity.getUniqueId())) {
-                amount = this.plugin.getConfig().getDouble("monsters.events.blood-moon.giant-zombie");
+                    if (ThreadLocalRandom.current().nextInt(10) <= level) {
+                        event.getDrops().add(new ItemStack(Material.SLIME_BALL, ThreadLocalRandom.current().nextInt(level)));
+                    }
+                }
             }
+            case ENDERMAN -> {
+                if (entity.getWorld().getEnvironment() == World.Environment.THE_END) {
+                    event.setDroppedExp(event.getDroppedExp() / 2);
+                    amount /= 2;
+                }
+            }
+            case PIGLIN, ZOMBIFIED_PIGLIN -> {
+                if (entity.getWorld().getEnvironment() == World.Environment.NETHER && entity.getLocation().getY() >= 128) {
+                    event.setDroppedExp(event.getDroppedExp() / 3);
+                    amount /= 3;
+                }
+            }
+        }
 
         if (GanyuAPI.getEventManager().getBloodMoon().isActive()) {
             if (GanyuAPI.getEventManager().getBloodMoon().getEntityList().contains(entity.getUniqueId())) {
