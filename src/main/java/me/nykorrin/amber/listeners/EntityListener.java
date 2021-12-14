@@ -75,38 +75,36 @@ public class EntityListener implements Listener {
                 amount = this.plugin.getConfig().getDouble("monsters.events.blood-moon.giant-zombie");
             }
 
-            if (bloodMoon.getEntityList().contains(entity.getUniqueId())) {
-                switch (event.getEntityType()) {
-                    case SKELETON -> amount = this.plugin.getConfig().getDouble("monsters.events.blood-moon.skeleton");
+        if (GanyuAPI.getEventManager().getBloodMoon().isActive()) {
+            if (GanyuAPI.getEventManager().getBloodMoon().getEntityList().contains(entity.getUniqueId())) {
+                switch (entity.getType()) {
+                    case GIANT -> amount = this.plugin.getConfig().getDouble("monsters.events.blood-moon.giant-zombie");
                     case ZOMBIE -> amount = this.plugin.getConfig().getDouble("monsters.events.blood-moon.zombie");
+                    case SKELETON -> amount = this.plugin.getConfig().getDouble("monsters.events.blood-moon.skeleton");
                 }
             }
         }
-
-        if (GanyuAPI.getEventManager().isActive(EventType.NETHER_RAID)) {
-            NetherRaid netherRaid = GanyuAPI.getEventManager().getNetherRaid();
-
-            if (netherRaid.getBoss().equals(entity.getUniqueId())) {
-                amount = this.plugin.getConfig().getDouble("monsters.events.nether-raid.piglin-brute");
-            }
-
-            if (netherRaid.getEntityList().contains(entity.getUniqueId())) {
-                switch (event.getEntityType()) {
-                    case WITHER_SKELETON -> this.plugin.getConfig().getDouble("monsters.events.nether-raid.wither-skeleton");
+        
+        if (GanyuAPI.getEventManager().getNetherRaid().isActive()) {
+            if (GanyuAPI.getEventManager().getNetherRaid().getEntityList().contains(entity.getUniqueId())) {
+                switch (entity.getType()) {
+                    case PIGLIN_BRUTE -> amount = this.plugin.getConfig().getDouble("monsters.events.nether-raid.piglin-brute");
+                    case WITHER_SKELETON -> amount = this.plugin.getConfig().getDouble("monsters.events.nether-raid.wither-skeleton");
                     case PIGLIN -> {
-                        if (entity.hasMetadata("piglinThief")) {
-                            this.plugin.getConfig().getDouble("monsters.events.nether-raid.piglin-thief");
+                        if (entity.getName().contains("raider")) {
+                            amount = this.plugin.getConfig().getDouble("monsters.events.nether-raid.piglin-raider");
                         } else {
-                            this.plugin.getConfig().getDouble("monsters.events.nether-raid.piglin-raider");
+                            amount = this.plugin.getConfig().getDouble("monsters.events.nether-raid.piglin-thief");
                         }
                     }
-                    case BLAZE -> this.plugin.getConfig().getDouble("monsters.events.nether-raid.blaze");
+                    case BLAZE -> amount = this.plugin.getConfig().getDouble("monsters.events.nether-raid.blaze");
                     case ZOMBIFIED_PIGLIN -> amount = this.plugin.getConfig().getDouble("monsters.events.nether-raid.zombified-piglin");
                 }
             }
         }*/
 
         Player player = entity.getKiller();
+        BigDecimal decimal = new BigDecimal(amount).setScale(2, RoundingMode.HALF_EVEN);
 
         if (amount > 0) {
             if (AyakaAPI.getDataHandler().getCachedYML().getBoolean("options." + player.getUniqueId() + ".economy-visible")) {
