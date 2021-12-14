@@ -131,14 +131,14 @@ public class EntityListener implements Listener {
 
         if (amount > 0) {
             if (AyakaAPI.getDataHandler().getCachedYML().getBoolean("options." + player.getUniqueId() + ".economy-visible")) {
-                player.sendMessage(ChatColor.GREEN + "You earned $" + amount + " for killing a " + entity.getName() + ".");
+                player.sendMessage(ChatColor.GREEN + "You earned $" + decimal.doubleValue() + " for killing a " + entity.getName() + ".");
             }
-            Amber.getEconomy().depositPlayer(player, amount).transactionSuccess();
+            Amber.getEconomy().depositPlayer(player, decimal.doubleValue()).transactionSuccess();
         } else {
             if (AyakaAPI.getDataHandler().getCachedYML().getBoolean("options." + player.getUniqueId() + ".economy-visible")) {
-                player.sendMessage(ChatColor.RED + "You lost $" + Math.abs(amount) + " for killing a " + entity.getName() + ".");
+                player.sendMessage(ChatColor.RED + "You lost $" + Math.abs(decimal.doubleValue()) + " for killing a " + entity.getName() + ".");
             }
-            Amber.getEconomy().withdrawPlayer(player, Math.abs(amount)).transactionSuccess();
+            Amber.getEconomy().withdrawPlayer(player, Math.abs(decimal.doubleValue())).transactionSuccess();
         }
     }
 }
