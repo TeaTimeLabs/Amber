@@ -49,8 +49,8 @@ monsters:
   events:
     blood-moon:
       giant-zombie: 3000
-      skeleton: 500
       zombie: 800
+      skeleton: 500
     nether-raid:
       piglin-brute: 2000
       wither-skeleton: 500
@@ -58,3 +58,9 @@ monsters:
       piglin-raider: 250
       blaze: 100
       zombified-piglin: 100
+    demon-slayer:
+      kokushibo: 15000
+      doma: 10000
+    akame-ga-kill:
+      akame: 20000
+      kurome: 17500
