@@ -3,10 +3,10 @@ package me.nykorrin.amber.listeners;
 import me.nykorrin.amber.Amber;
 import me.nykorrin.ayaka.AyakaAPI;
 import me.nykorrin.ganyu.GanyuAPI;
-import me.nykorrin.ganyu.events.EventType;
-import me.nykorrin.ganyu.events.bloodmoon.BloodMoon;
-import me.nykorrin.ganyu.events.netherraid.NetherRaid;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +14,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
 public class EntityListener implements Listener {
